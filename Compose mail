@@ -1,0 +1,34 @@
+import org.junit.jupiter.api.Test;
+import com.codeborne.selenide.Configuration;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.*;
+
+public class GmailTest {
+
+  @Test
+  public void openGmailComposePage() {
+    // Configure Cypress to use Chrome browser
+    Configuration.browser = "chrome";
+    
+    // Open the Gmail login page
+    open("https://www.gmail.com");
+    
+    // Enter email address and click Next button
+    $(By.name("identifier")).setValue("your.email@gmail.com").pressEnter();
+    
+    // Enter password and click Next button
+    $(By.name("password")).setValue("yourpassword").pressEnter();
+    
+    // Wait for the inbox page to load
+    $(By.cssSelector(".T-I-KE")).waitUntil(visible, 10000);
+    
+    // Click on the compose button to open the compose page
+    $(By.cssSelector(".T-I-KE")).click();
+    
+    // Wait for the compose page to load
+    $(By.cssSelector("textarea[name='to']")).waitUntil(visible, 10000);
+    
+    // Verify that the compose page is opened
+    $(By.cssSelector("textarea[name='to']")).shouldBe(visible);
+  }
+}
